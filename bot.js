@@ -1,60 +1,68 @@
 require('dotenv').config();
 const api_key = process.env.API_KEY;
-// const api_url = `https://api.nomics.com/v1/markets?key=${api_key}`;
+// URL for Bitcoin API
 const btc_url = `https://api.nomics.com/v1/currencies/ticker?key=${api_key}&ids=BTC&interval=1h,1d&convert=USD&per-page=100&page=1`;
+// URL for etherium URL
 const eth_url = `https://api.nomics.com/v1/currencies/ticker?key=${api_key}&ids=ETH&interval=1h,1d&convert=USD&per-page=100&page=1`;
 
 
 const PREFIX = "$";
 const fetch = require('node-fetch');
 
-const newLocal = module.exports = async (msg) => {
+const btc = module.exports = async (msg) => {
+  // if the sender is bot it'll return
   if (msg.author.bot)
     return;
+    // command should start with $ as a Prefix
   if (msg.content.startsWith(PREFIX)) {
     const CMD_Name = msg.content
       .trim()
       .substring(PREFIX.length)
      
       console.log(CMD_Name);
-
-    if (CMD_Name === "btc" && CMD_Name.toUpperCase()) {
+    // if CMD_Name is  btc 
+    if (CMD_Name === "BTC" /* || CMD_Name.toLowerCase() */) {
       try {
+       // fetching btc api 
+        const btcresponse = await fetch(btc_url);
+        let btcjson = await btcresponse.json();
+        console.log(btcjson)
+        //sending response to the user
+        msg.channel.send(response);
         
-        const response = await fetch(btc_url);
-        let json = await response.json();
-        console.log(json)
-        msg.channel.send(json)
-        
       }
-      catch (err) {
-        console.error(err);
-        msg.channel.send("You have entered a wrong command");
-      }
-      
-
-    }
-      else if(CMD_Name === "eth" || CMD_Name.toUpperCase()) {
-      try {
-        const response = await fetch(eth_url);
-        let json = await response.json();
-        console.log(json)
-        msg.channel.send(json)
-      }
+      //if ther's some error 
       catch (err) {
         console.error(err);
         msg.channel.send("You have entered a wrong command");
       }
     }
+    // if command is eth
+    if (CMD_Name === "ETH" /* || CMD_Name.toLowerCase() */){
+      try{
+        const ethresponse = await fetch(eth_url);
+        const ethjson = await ethresponse.json();
+        console.log(ethjson);
+        //sending eth response
+        msg.channel.send(response);
+      }
+      catch (err){
+        console.error(err);
+        msg.channel.send("You have entered a wrong command");
+      }
 
-
-
-
-
-
-
+    }
+  }
+  else{
+    console.log(msg.content)
+    
   }
 }
+// const response = {
+//           id:this.id,
+//           currency:this.currency
+//         }
+
 
 
 
