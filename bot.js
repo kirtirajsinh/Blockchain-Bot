@@ -21,6 +21,20 @@ const btc = module.exports = async (msg) => {
       .substring(PREFIX.length)
      
       console.log(CMD_Name);
+      if(CMD_Name === "help"){
+        const helpEmbed = new Discord.MessageEmbed()
+        	.setColor('#f2a900')
+	        .setTitle('Crypto BOT')
+          .setDescription('Real time Crypto currency values')
+          .addFields(
+          	{ name: 'Commands :' , value: "commands to get Crypto currency info" },
+            { name:"$BTC :" , value: "To get the real time value and information about Bitcoin "},
+            { name:"$ETH :" , value: "To get the real time value and information about Ethereum "},
+             { name:"$help :" , value: "To get help around commands"}
+
+          )
+          msg.channel.send(helpEmbed);
+      }
     // if CMD_Name is  btc 
     if (CMD_Name === "BTC" /* || CMD_Name.toLowerCase() */) {
       try {
@@ -32,21 +46,21 @@ const btc = module.exports = async (msg) => {
 	.setColor('#f2a900')
 	.setTitle('Crypto BOT')
 	.setURL('https://discord.js.org/')
-	.setAuthor('Crypto BOT', 'https://i.imgur.com/wSTFkRM.png', 'https://discord.js.org')
-	.setDescription('Some description here')
-	.setThumbnail(btcjson[0].logo_url)
+	.setAuthor('Crypto BOT', btcjson[0].logo_url, 'https://discord.js.org')
+	.setDescription('Real time Crypto currency values')
+	.setThumbnail('https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg')
 	.addFields(
 		{ name: 'Currency', value: btcjson[0].currency },
 		{ name: '\u200B', value: '\u200B' },
-		{ name: 'Price', value: btcjson[0].price , inline: true },
-		{ name: 'Market cap', value: btcjson[0].market_cap , inline: true },
-    { name: 'Price change in 1hour', value: btcjson[0].price_change },
-    { name: 'first Trade', value: btcjson[0].first_trade }
+		{ name: 'Price :', value: btcjson[0].price , inline: true },
+		{ name: 'Market cap :', value: btcjson[0].market_cap , inline: true },
+    { name: 'Rank :', value: btcjson[0].rank },
+    { name: 'first Trade :', value: btcjson[0].first_trade,inline:true },
+    {name:'Highest of all time :' , value : btcjson[0].high, inline: true}
 	)
-	.addField('Inline field title', 'Some value here', true)
-	.setImage('https://i.imgur.com/wSTFkRM.png')
+	.setImage('https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg')
 	.setTimestamp()
-	.setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+	.setFooter('All Values are in USD', 'https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg');
         
         msg.channel.send(exampleEmbed);
           
@@ -65,8 +79,27 @@ const btc = module.exports = async (msg) => {
         const ethresponse = await fetch(eth_url);
         const ethjson = await ethresponse.json();
         console.log(ethjson);
+         const ethEmbed = new Discord.MessageEmbed()
+	.setColor('#f2a900')
+	.setTitle('Crypto BOT')
+	.setURL('https://discord.js.org/')
+	.setAuthor('Crypto BOT', ethjson[0].logo_url, 'https://discord.js.org')
+	.setDescription('Real time Crypto currency values')
+	.setThumbnail('https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg')
+	.addFields(
+		{ name: 'Currency', value: ethjson[0].currency },
+		{ name: '\u200B', value: '\u200B' },
+		{ name: 'Price :', value: ethjson[0].price , inline: true },
+		{ name: 'Market cap :', value: ethjson[0].market_cap , inline: true },
+    { name: 'Rank :', value: ethjson[0].rank },
+    { name: 'first Trade :', value: ethjson[0].first_trade,inline:true },
+    {name:'Highest of all time :' , value : ethjson[0].high, inline: true}
+	)
+	.setImage('https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg')
+	.setTimestamp()
+	.setFooter('All Values are in USD', 'https://s3.us-east-2.amazonaws.com/nomics-api/static/images/currencies/btc.svg');
         //sending eth response
-        msg.channel.send(ethjson);
+        msg.channel.send(ethEmbed);
       }
       catch (err){
         console.error(err);
